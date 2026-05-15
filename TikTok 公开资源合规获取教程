@@ -1,0 +1,44 @@
+一、前言
+TikTok 聚集了海量海外短视频、创作者账号、热门话题等公开资源，是跨境内容研究、技术学习、行业分析的重要参考来源。 本文从合规角度出发，分享安全获取 TikTok 公开资源的思路，附带极简 Python 示例代码，仅用于个人技术学习与研究，不涉及破解、违规批量采集，可放心发布在各类技术论坛。
+二、合规使用原则
+在获取 TikTok 公开资源前，必须坚守规范底线：只采集平台对外展示的公开内容，如视频标题、播放点赞数据、热门话题标签、公开创作者基础信息； 不抓取用户隐私、私信、联系方式等敏感数据； 严格控制请求间隔，不高频访问、不恶意请求接口； 所有代码与方法仅限学习交流，禁止用于商业批量爬取、侵权引流等行为。
+三、环境准备
+只需基础 Python 运行环境，安装网络请求依赖即可，命令如下：
+砰
+运行
+pip install requests
+四、简易合规获取示例代码
+以下代码仅请求 TikTok 公开网页基础信息，无破解反爬、无违规接口，论坛可直接发布：
+派森
+运行
+# -*- coding:utf-8 -*-
+# TikTok 公开资源简易获取 仅技术学习使用
+import requests
+import time
+
+# 请求头模拟正常浏览器访问
+headers = {
+    "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36"
+}
+
+def get_tiktok_public_info(profile_url):
+    try:
+        resp = requests.get(profile_url, headers=headers, timeout=15)
+        time.sleep(2)  # 延时防风控
+        if resp.status_code == 200:
+            print("页面公开资源访问成功")
+            print("页面文本长度：", len(resp.text))
+            return resp.text
+        else:
+            print("访问失败，状态码：",resp.status_code)
+            return ""
+    except Exception as e:
+        print("请求异常：",str(e))
+        return ""
+
+if __name__ == "__main__":
+    # 替换为公开创作者主页链接
+    url = "https://www.tiktok.com/xxx"
+    get_tiktok_public_info(url)
+五、总结与论坛发布提醒
+TikTok 公开资源种类丰富，合理利用可助力跨境内容参考与编程技术练习。 使用时一定要遵守平台规则和网络安全规范，不修改代码用于恶意采集、批量薅资源。 本文代码轻量化、无违规接口、无敏感操作，适合新手入门学习，也完全符合开源论坛发布要求，仅做技术交流分享即可。tg:@some1899
