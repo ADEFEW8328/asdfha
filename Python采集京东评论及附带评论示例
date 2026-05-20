@@ -1,0 +1,138 @@
+​
+日常网购大家都爱翻看商品评论，从中了解真实使用体验。手动整理评论费时又费力，为此我们借助Python爬虫技术，对接京东公开评论接口，只需替换商品专属ID，就能轻松批量采集手机商品评论、用户评分、昵称与发布时间等信息，快速汇总真实用户口碑，高效完成数据收集工作。
+首先我们准备好我们的工具
+**1、神箭手云爬虫**
+
+**2、Chrome浏览器**
+
+**3、Chrome的插件XpathHelper**
+
+打开网站看一眼：
+
+具体挑什么分类可以随大家喜欢。我们在采集商品的同时，会将京东的商品评价采集下来。同时呢，我们也思考该如何应对京东对IP的限制，先直接上代码：
+
+var configs = {  
+    domains: ["search.jd.com","item.jd.com","club.jd.com"],  
+    scanUrls: ["http://search.jd.com/Search?keyword=Python&enc=utf-8&qrst=1&rt=1&stop=1&book=y&vt=2&page=1&s=1&click=0"],  
+    contentUrlRegexes: ["http://item\\.jd\\.com/\\d+.html"],  
+    helperUrlRegexes: ["http://search\\.jd\\.com/Search\\?keyword=Python&enc=utf-8&qrst=1&rt=1&stop=1&book=y&vt=2&page=\\d+&s=1&click=0"],//可留空  
+    fields: [  
+        {  
+            // 第一个抽取项  
+            name: "title",  
+            selector: "//div[@id='name']/h1",//默认使用XPath  
+            required: true //是否不能为空  
+        },  
+        {  
+            // 第一个抽取项  
+            name: "productid",  
+            selector: "//div[contains(@class,'fl')]/span[2]",//默认使用XPath  
+            required: true //是否不能为空  
+        },  
+        {  
+            name: "comments",  
+            sourceType: SourceType.AttachedUrl,  
+            attachedUrl: "http://club.jd.com/productpage/p-{productid}-s-0-t-3-p-0.html",  
+            selectorType: SelectorType.JsonPath,  
+            selector: "$.comments",  
+            repeated: true,  
+            children:[  
+                {  
+                    name: "com_content",  
+                    selectorType: SelectorType.JsonPath,  
+                    selector: "$.content"  
+                },  
+                {  
+                    name: "com_nickname",  
+                    selectorType: SelectorType.JsonPath,  
+                    selector: "$.nickname"  
+                },  
+            ]  
+        }  
+    ]  
+};  
+configs.onProcessHelperUrl = function(url, content, site){  
+    if(!content.indexOf("抱歉，没有找到")){  
+        var currentPage = parseInt(url.substring(url.indexOf("&page=") + 6));  
+        if(currentPage == 0){  
+            currentPage = 1;  
+        }  
+        var page = currentPage + 2;  
+        var nextUrl = url.replace("&page=" + currentPage, "&page=" + page);  
+        site.addUrl(nextUrl);  
+    }  
+    return true;  
+};  
+var crawler = new Crawler(configs);  
+crawler.start();
+
+
+这个评论的配置，由于评论是多项，且评论还有子项，在框架中，是通过children关键字来配置的。具体参照代码既可，我们 可以在子项中在定义不同的字段，像这里的comments抽取项会有content和nickname两个子抽取项，分别对应的是评论的内容和昵称。这里是一个简化的版本，由于京东页面相对很复杂，我们在抽取评论的时候，只抽取前一部分评论，当然我们还可以拿到更多的信息，包括评论数，评论人的等级等等，这里大家就自行探索吧。最后，由于京东会对IP进行封锁，虽然说神箭手会自动分布式开启爬虫，不过依然扛不住京东大叔的封锁，因此这里需要通过接入代理IP解决这样的问题，类似开启js渲染，爬取速度会大大下降，需要大家耐心等待结果。
+
+评论示例如下：
+
+{
+    "code": "0",
+    "result": {
+        "floors": [
+            {
+                "floorId": "flo_11096",
+                "type": "eCustom",
+                "mId": "commentlist-ratestar",
+                "cf": {
+                    "st": {
+                        "bgc": "#fff"
+                    }
+                },
+                "data": {},
+                "subFloors": [
+                    {
+                        "floorId": "flo_11099",
+                        "type": "eCustom",
+                        "mId": "commentlist-label",
+                        "cf": {
+                            "st": {
+                                "bgc": "#fff"
+                            }
+                        },
+                        "data": {},
+                        "subFloors": [
+                            {
+                                "floorId": "flo_11100",
+                                "type": "eCustom",
+                                "mId": "commentlist-commonlabel",
+                                "cf": {
+                                    "st": {
+                                        "bgc": "#fff"
+                                    }
+                                },
+                                "data": {
+                                    "generalTagList": [
+                                        {
+                                            "name": "全部",
+                                            "identification": "ALL",
+                                            "exposureEventId": "",
+                                            "count": "200000",
+                                            "type": "0",
+                                            "sort": "1",
+                                            "isShowZeroTag": false,
+                                            "isDefaultTag": true,
+                                            "countStr": "99%好评",
+                                            "supportDefaultSort": true,
+                                            "supportNewSort": true,
+                                            "showTopBar": true,
+                                            "showFoldComment": true,
+                                            "plusSelect": "1",
+                                            "tagDesc": {
+                                                "dialogDesc": "京东致力于为您提供合法、公正、客观、真实的评价晒单，将采取技术手段对恶意、虚假等不当评价进行处理，以便为您消费决策提供有效参考。",
+                                                "icon": "",
+                                                "dialogTitle": "京东评价原则",
+                                                "jumpUrl": "https://club.jd.com/comment/shaidan2.action",
+                                                "dialogBtn": "我知道了",
+                                                "clerk_type": "1",
+                                                "desc": "京东鼓励真实、有用的评价"
+                                            }
+                                        },
+TG：@some1899
+
+​
