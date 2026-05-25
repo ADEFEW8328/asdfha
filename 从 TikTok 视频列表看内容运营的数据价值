@@ -1,0 +1,19 @@
+在短视频运营领域，很多人关注的是单条爆款视频，但对于运营人员和数据分析人员来说，一个博主的完整视频列表往往更具研究价值。通过分析视频列表数据，可以更全面地了解账号的内容方向、更新频率以及用户反馈情况。
+以 TikTok 为例，一个创作者可能发布数百甚至上千条视频。单独分析某一条热门作品容易产生偶然性，而通过观察整个视频列表，可以发现账号长期稳定的内容策略。例如某些账号持续深耕美妆领域，有些账号则专注于科技测评或生活记录。通过统计不同类型视频的数据表现，可以更准确地判断哪些内容更受用户欢迎。
+在实际分析过程中，通常会关注视频播放量、点赞量、评论量以及发布时间等数据。通过这些指标，可以建立简单的内容评估模型。
+下面是一个简单的 Python 示例，用于计算视频互动指数：
+videos = [
+    {"title": "Video A", "likes": 12000, "comments": 500},
+    {"title": "Video B", "likes": 8500, "comments": 320},
+    {"title": "Video C", "likes": 15600, "comments": 780}
+]
+for video in videos:
+score = video[“likes”] + video[“comments”] * 10
+print(f"{video[‘title’]} 互动指数：{score}")
+运行后即可快速获得每条视频的互动表现，从而筛选出表现较好的内容。
+对于运营团队来说，视频列表数据最大的价值在于发现规律。通过观察博主长期发布内容的趋势，可以了解哪些选题持续受到关注，哪些内容形式更容易获得互动。同时，还可以分析更新频率与数据表现之间的关系，为后续内容规划提供参考。
+随着短视频行业的发展，数据分析已经成为内容运营的重要组成部分。相比单纯关注个别热门视频，从完整视频列表中挖掘信息往往能够获得更加客观和稳定的结论。无论是市场研究、内容策划还是账号分析，视频列表数据都具有较高的参考价值。
+对于从业者而言，建立数据化分析思维，利用技术手段整理和研究视频列表信息，能够帮助团队更高效地理解内容生态，并为后续运营决策提供可靠依据。长期来看，数据驱动的内容运营模式将成为越来越多团队的重要选择
+@wy_xyz
+视频列表示例
+“status_code”:0,“min_cursor”:1777500646557,“max_cursor”:1777327686824,“has_more”:1,“aweme_list”:[{“aweme_id”:“7634307097114512653”,“desc”:“Royal purple.#amethyst#ring#s925#giftformom#SummerVibes “,“create_time”:1777500647,“author”:{“uid”:“7356434712338056238”,“short_id”:“0”,“nickname”:“Sanatsparkle”,“signature”:“🎙️JoJo \u0026 Michelle 🥰\n🕰️EST:18:00-6:00\n PST:15:00-3:00\n Weds.–Mon.\n 💖Thx xoxo”,“avatar_larger”:{“uri”:“tos-useast5-avt-0068-tx/68317909685a54852d9897d6447ad7dd”,“url_list”:[”https://p16-common-sign.tiktokcdn-us.com/tos-useast5-avt-0068...\u0026refresh_token=7686069f\u0026x-expires=1777629600\u0026x-signature=bbI9f9SSUuTtsxLs%2B7DG5H1DRCI%3D\u0026t=4d5b0474\u0026ps=13740610\u0026shp=d05b14bd\u0026shcp=34ff8df6\u0026idc=useast8”,“https://p19-common-sign.tiktokcdn-us.com/tos-useast5-avt-0068...\u0026refresh_token=94b84f69\u0026x-expires=1777629600\u0026x-signature=iFnz5lwiqRiu%2F9HsbZ0oSbYoc4w%3D\u0026t=4d5b0474\u0026ps=13740610\u0026shp=d05b14bd\u0026shcp=34ff8df6\u0026idc=useast8”,“https://p16-common-sign.tiktokcdn-us.com/tos-useast5-avt-0068...\u0026refresh_token=ae0cc561\u0026x-expires=1777629600\u0026x-signature=%2Bquoidj7CpZDaZ704p2WVWkk8Lw%3D\u0026t=4d5b0474\u0026ps=13740610\u0026shp=d05b14bd\u0026shcp=34ff8df6\u0026idc=useast8”],“width”:720,“height”:720,“url_prefix”:null},“avatar_thumb”:{“uri”:“tos-useast5-avt-0068-tx/68317909685a54852d9897d6447ad7dd”,“url_list”:[“https://p16-common-sign.tiktokcdn-us.com/tos-useast5-avt-0068...\u0026refresh_token=f6d45051\u0026x-expires=1777629600\u0026x-signature=hhsNnIu1oodz8cYhPzpsw6fNsRg%3D\u0026t=4d5b0474\u0026ps=13740610\u0026shp=d05b14bd\u0026shcp=34ff8df6\u0026idc=useast8”,“https://p19-common-sign.tiktokcdn-us.com/tos-useast5-avt-0068...\u0026refresh_token=e1384f1f\u0026x-expires=1777629600\u0026x-signature=6WdFU8Rec9puQzvrPehhZxeTQx8%3D\u0026t=4d5b0474\u0026ps=13740610\u0026shp=d05b14bd\u0026shcp=34ff8df6\u0026idc=useast8”,"https://p16-common-sign.tiktokcdn-us.com/tos-useast5-avt-0068-tx/68317909685a54852d9897d6447ad7dd~tplv-tiktokx-cropcenter:100:100.jpeg?dr=9640\u0026refresh_token=deb24e0d\u0026x-expires=1777629600\u0026x-signature=GxVbUQ2aL2tKLbSPVdim0oZYERg%3D\u0026t=4d5b0474\u0026ps=13740610\u0026shp=d05b14bd\u0026shcp=34ff8df6
