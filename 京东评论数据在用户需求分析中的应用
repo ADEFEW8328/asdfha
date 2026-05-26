@@ -1,0 +1,58 @@
+做小红书运营、数据复盘和合规开发的朋友，都离不开Token参数。小红书常见Token分为开放平台access_token和网页端xsec_token，是合法调用官方接口、获取笔记数据的核心凭证，合规使用可高效助力内容运营、数据统计工作。
+
+首先明确核心用途：access_token多用于小红书开放平台官方授权接口，可合法查询笔记详情、公开评论等数据；xsec_token是网页端校验凭证，适配日常网页端数据请求，二者均为官方合规参数，仅用于个人学习、运营复盘等合法场景。
+
+给大家分享一套实测可用、轻量简洁的Python合规获取代码，适配2026最新规则，无需复杂环境，安装requests即可运行：
+from collections import Counter
+
+comments = [
+    "音质很好，佩戴舒适",
+    "续航时间很长，音质不错",
+    "佩戴舒服，物流很快",
+    "音质清晰，续航满意"
+]
+
+words = []
+
+for comment in comments:
+    words.extend(comment.split())
+
+result = Counter(words)
+
+for word, count in result.most_common():
+    print(word, count)     
+
+使用注意事项：代码仅用于个人学习、合规运营复盘，禁止用于批量违规采集、恶意风控测试、商业爬虫等违规场景。Token存在时效性，单次生成仅短时间有效，请求数据时需搭配合法Cookie和官方请求头，避免高频请求。
+
+日常运营中，合理使用Token可快速整理公开笔记数据、复盘内容流量，是自媒体运营和轻度开发的实用工具。坚守平台规则，合规使用接口和Token，才能长期稳定使用相关功能。@some1899
+
+Request Header：
+{
+“:method”: “POST”,
+“:authority”: “edith.rnote.com”,
+“:path”: “/api/sns/v1/note/detailfeed/preload”,
+“:scheme”: “https”,
+“content-length”: “807”,
+“x-legacy-fid”: “”,
+“user-agent”: “discover/9.26.1 (iPhone; iOS 16.7.12; Scale/2.00) Resolution/750*1334 Version/9.26.1 Build/9261803 Device/(Apple Inc.;iPhone10,1) NetType/WiFi”,
+“xy-direction”: “31”,
+“x-xray-traceid”: “cf2a2021c1e78b5d45eb410c0486617b”,
+“xy-scene”: “point=789&fs=0”,
+“x-mini-mua”: “eyJhIjoiRUNGQUFGMDIiLCJjIjo5NzQsImkiOjIsImsiOiI0NjRmNGJjMTczYzAyZDlkYTkyMzdkMzZmNDgwZWMyYzEzMDY4Y2FjM2U1NWYwMmM2NzYwNzJiZDQ1ODMwYjRjIiwibSI6IjE3Nzk1Mjk5NTgyNzUiLCJuIjoiZWE3NWJkZTdjNDUxNjhhM2JlMDQyYjZkYWMxMjM4YjIiLCJvIjoib0JLU2s0UGlHQWQ2RndScXA3ZE5KQSIsInAiOiJpIiwicyI6IjE0NGZkZTIwMDFiYTMyZTk0NmE4YmExMTIwODY3YmM1IiwidSI6IjAwMDAwMDAwOWJkNzAyYTUxYzZkZTI0ZTU4MjM0YThlMDA5YjYxNTEiLCJ2IjoiMi4yLjEwIn0.NNtbDA9ZIfis7dSRgupi9d34VSkFMSoQ8BKt9J_eOjIAUOfe_xVcgiOEHYqtXU-a9aFBha9lFrH-0Ck_ybYN9e7n9tes9G-EPZRpawVk_4NVRcGwrIWHzmNePmWugX0aRa96BthYA9_CxS3LG9HFRobBxwrsklqQ4n8AdiwcJaaAAZMONuDw7JuMu0d-9cc8YNA2prLqBewywlTU2TihLA3di16RwJ6hZDtu-AJ95Bpjf2wAbq_TNAwFx18S7dSMifkiSs5CL-BqiirLhO25mH43Go69o6adoDIa2eL2FXwMLM8fkvseduF8TX95pXJ_DWU5kVVbHaAdIRg4OmB4l4JFESsPE9bk7n7jHVDAuAuX-pdIrOLEoLQZ6y_g2f4OfsLEinBVzWxeuTg9RwcgWizOKmo122Kn-rdMfjN1m5v6kmwC59hG3v-IpTGneLEd1qZ8wibBA3LiegA10o3Hy0WJoi11OZ_jvK5uC0mkDgh-LChFRlE43mo-RKosc8HJbSuEl3LEaaiYehAD8BQQqlpPqKcVig_tpLq-q-NF2SGoZwmA4uYI5vzqUEo_91HjY0T2UXEuth_P0B3Sv0gu6Q.”,
+“x-b3-traceid”: “52a3d955b59a4148”,
+“x-mini-gid”: “7c8aa34a30805483fe92b9d6b157f248477fc888473594b177992ba9”,
+“accept-language”: “zh-Hans;q=1, en;q=0.9”,
+“x-mini-sig”: “fda14ecbf0eb8887d30e7ee96283cc2ef15cbeecc73accac637d422f984da1a9”,
+“x-legacy-did”: “59E01366-2B0C-478C-970C-377500336A63”,
+“x-mini-nsig”: “c5996dfe16cbb769b45b15fa9b6ee3bf2b7058957caa41da7083a47d05adc3bd”,
+“x-mini-s1”: “AOIBAAABfIeLCBTKDg3e9Z/+PG9jhAa/4ufxmvv8k5CJCzw8FEDGpgEeq4kDVdV5B/b79L2ebBKE0C5mCBE=”,
+“shield”: “XYAAEAAgAAAAEAAABTAAAAUzUWEe4xG1IYD9/c+qCLOlKGmTtFa+lG438MeuBeRK5HzPGwn7VhSp36jeAsz8Qt1L5+2KUyYwxNFmKNZLv33y0RgOe5Caa+Pxi11mde1Ztk6WNW”,
+“x-net-core”: “crn”,
+“xy-platform-info”: “platform=iOS&version=9.26.1&build=9261803&deviceId=59E01366-2B0C-478C-970C-377500336A63&bundle=com.xingin.discover”,
+“content-type”: “application/x-www-form-urlencoded; charset=utf-8”,
+“accept-encoding”: “gzip;q=1.0,compress;q=0.5”,
+“xy-common-params”: “SUE=1&app_id=ECFAAF02&auto_trans=0&build=9261803&channel=AppStore&data_ctry=SG&deviceId=59E01366-2B0C-478C-970C-377500336A63&device_level=0&device_model=phone&did=2c0090170a817aedc6263604f45b4fc7&dlang=zh&fid=&gid=7c8aa34a30805483fe92b9d6b157f248477fc888473594b177992ba9&holder_ctry=US&id_token=VjEAADzORwB0hT%2BRtifICfPRZ0qSWKCJW4eWeLfqWpc8%2BdepSIoKR9%2BJjdexalP22d7eUaOIaU2yVfjWPVtxwiQ1RNEAD4JSPpnTllFJ%2BUUuIJBDwYXMKBWuH0MoEv5z6lHbFBd/&identifier_flag=0&is_mac=0&lang=zh-Hans&launch_id=801222257&mlanguage=zh_cn&nqe_score=73&overseas_channel=0&platform=iOS&project_id=ECFAAF&sid=session.1779529810123909137258&t=1779529958&teenager=0&tz=Asia/Shanghai&uis=light&version=9.26.1”,
+“accept”: “/”,
+“referer”: “https://app.xhs.cn/”,
+“cookie”: “acw_tc=0a587c9c17795298110401459ec8c18b3c7045d69e082b20a20c8f1f229af9”
+}
